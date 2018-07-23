@@ -1,10 +1,11 @@
 from selenium import webdriver
 from fixture.session import SessionHelper
 from fixture.project import ProjectHelper
+from fixture.james import JamesHelper
 
 
 class Application:
-    def __init__(self, browser, baseURL):
+    def __init__(self, browser, config):
         if browser == "Firefox":
             self.wd = webdriver.Firefox(capabilities={"marionette": False},
                                         firefox_binary="/Applications/Firefox.app/Contents/MacOS/firefox")
@@ -14,8 +15,10 @@ class Application:
             raise ValueError("Unrecognized browser %s" % browser)
         self.session = SessionHelper(self)
         self.project = ProjectHelper(self)
+        self.james = JamesHelper(self)
         # self.contact = ContactHelper(self)
-        self.baseURL = baseURL
+        self.baseURL = config["web"]["baseURL"]
+        self.config = config
 
     def open_home_page(self):
         wd = self.wd
