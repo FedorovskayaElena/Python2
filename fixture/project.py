@@ -1,5 +1,4 @@
 from model.project import Project
-from time import sleep
 from selenium.webdriver.support.ui import Select
 
 
@@ -74,15 +73,22 @@ class ProjectHelper:
                                                    view_status=view_status, description=description))
         return list(self.projects_cache)
 
-
     def open_project_page_by_id(self, pid):
-
+        wd = self.app.wd
+        link = "manage_proj_edit_page.php?project_id=%s" % str(pid)
+        print(link)
+        wd.find_element_by_xpath("//a[@href='%s']" % link).click()
 
     def delete_by_pid(self, pid):
         wd = self.app.wd
         self.open_projects_page()
+        print("Project to delete: %s" % str(pid))
         self.open_project_page_by_id(pid)
+        print("Project opened: %s" % wd.find_element_by_xpath("//input[@name='project_id' and @type='hidden']").get_attribute("value"))
         # click Delete button
-        wd.find_element_by_xpath("//input[@value='Delete group(s)']").click()
-        self.group_cache = None
-        self.open_groups_page()
+        wd.find_element_by_xpath("//input[@value='Delete Project']").click()
+        # и повторный клик на Delete на странице подтверждения удаления
+        wd.find_element_by_xpath("//input[@value='Delete Project']").click()
+        self.projects_cache = None
+        self.open_projects_page()
+

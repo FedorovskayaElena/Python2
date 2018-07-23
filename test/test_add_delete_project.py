@@ -5,9 +5,6 @@ import pytest
 
 def test_add_project(app, data_projects):
 
-    #new_project = Project(name="Inherit None private stable 6", status="stable", view_status="private",
-    #                      inherit=False, description="Test descriptio dkfjks slkf s dsf")
-
     new_project = data_projects
 
     old_projects_list = app.project.get_projects_list()
@@ -20,7 +17,11 @@ def test_add_project(app, data_projects):
     print(new_projects_list)
     print("Len %s" % str(len(new_projects_list)))
 
-    old_projects_list.append(new_project)
+    # если проект с таким именем уже есть, то добавиться он и не должен!
+    if new_project.name in (p.name for p in old_projects_list):
+        print("УЖЕ ЕСТЬ ТАКОЙ!!!")
+    else:
+        old_projects_list.append(new_project)
 
     old_projects_list_cleaned = [p.clean_project() for p in old_projects_list]
     new_projects_list_cleaned = [p.clean_project() for p in new_projects_list]
@@ -29,14 +30,11 @@ def test_add_project(app, data_projects):
            sorted(old_projects_list_cleaned, key=lambda p: p.pid_or_max())
 
 
-test_data = [i for i in range(1)]
+test_data = [i for i in range(3)]
 
 
 @pytest.mark.parametrize("number", test_data)
-def test_delete_project(app):
-
-    #new_project = Project(name="Inherit None private stable 6", status="stable", view_status="private",
-    #                      inherit=False, description="Test descriptio dkfjks slkf s dsf")
+def test_delete_project(app, number):
 
     old_projects_list = app.project.get_projects_list()
     if len(old_projects_list) == 0:
@@ -47,7 +45,7 @@ def test_delete_project(app):
     print("Len %s" % str(len(old_projects_list)))
 
     project_to_delete = choice(old_projects_list)
-    app.project.delete_by_id(project_to_delete.pid)
+    app.project.delete_by_pid(project_to_delete.pid)
 
     new_projects_list = app.project.get_projects_list()
     print(new_projects_list)
