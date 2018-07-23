@@ -1,5 +1,6 @@
 from model.project import Project
 from selenium.webdriver.support.ui import Select
+import re
 
 
 class ProjectHelper:
@@ -54,7 +55,6 @@ class ProjectHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
-
     def get_projects_list(self):
         if self.projects_cache is None:
             wd = self.app.wd
@@ -68,7 +68,7 @@ class ProjectHelper:
                 view_status = elements[i].find_element_by_xpath("td[4]").text
                 description = elements[i].find_element_by_xpath("td[5]").text
                 link = elements[i].find_element_by_xpath("td[1]/a").get_attribute("href")
-                pid = link.replace("http://localhost/mantisbt-1.2.20/manage_proj_edit_page.php?project_id=", "")
+                pid = re.sub('.*manage_proj_edit_page.php.project_id=', "", link)
                 self.projects_cache.append(Project(pid=pid, name=name, status=status, inherit=inherit,
                                                    view_status=view_status, description=description))
         return list(self.projects_cache)
