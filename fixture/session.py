@@ -1,3 +1,5 @@
+import time
+
 class SessionHelper:
     def __init__(self, app):
         self.app = app
@@ -25,9 +27,11 @@ class SessionHelper:
 
     def is_logged_in(self):
         wd = self.app.wd
+        print("\n ??LOGGIN?? \n %s" % str(len(wd.find_elements_by_link_text("Logout"))))
         return len(wd.find_elements_by_link_text("Logout")) > 0
 
     def is_logged_in_as(self, username):
+        print("\nis_logged_in_as %s" % self.get_user_name())
         return self.get_user_name() == username
 
     def get_user_name(self):
@@ -38,6 +42,7 @@ class SessionHelper:
         wd = self.app.wd
         if self.is_logged_in():
             if self.is_logged_in_as(username):
+                print("\nLogged in as %s" % username)
                 return
             else:
                 self.logout()

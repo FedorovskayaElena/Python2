@@ -18,4 +18,4 @@ testdata = [Project(name="Тестовое имя", description="Тестово�
                     status=statuses[1], inherit=inherits[1], view_status=view_statuses[1])] + \
            [Project(name=random_string("name", 20), description=random_string("header", 40),
                     status=random.choice(statuses), inherit=random.choice(inherits),
-                    view_status=random.choice(view_statuses)) for i in range(0, 5)]
+                    view_status=random.choice(view_statuses)) for i in range(0, 2)]

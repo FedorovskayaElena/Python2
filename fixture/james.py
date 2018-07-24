@@ -10,8 +10,10 @@ class JamesHelper:
         session = JamesHelper.Session(james_config["host"], james_config["port"], james_config["username"], james_config["password"])
         if session.is_user_registered(username):
             session.reset_password(username, password)
+            print("\nPassword reset %s/%s" % (username, password))
         else:
             session.create_user(username, password)
+            print("\nUser created %s/%s" % (username, password))
         session.quit()
 
     class Session:

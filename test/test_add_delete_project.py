@@ -3,7 +3,7 @@ from random import choice
 import pytest
 
 
-def test_add_project(app, data_projects):
+def test_add_project(app, data_projects, login):
 
     new_project = data_projects
 
@@ -34,7 +34,7 @@ test_data = [i for i in range(3)]
 
 
 @pytest.mark.parametrize("number", test_data)
-def test_delete_project(app, number):
+def test_delete_project(app, login, number):
 
     old_projects_list = app.project.get_projects_list()
     if len(old_projects_list) == 0:
