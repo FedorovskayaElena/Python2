@@ -20,8 +20,8 @@ class ProjectHelper:
 
     def open_projects_page(self):
         wd = self.app.wd
-        if not (wd.current_url.endswith("/manage_proj_page.php") and
-                len(wd.find_elements_by_xpath("//input[@value='Create New Project']")) > 0):
+        if not wd.current_url.endswith("/manage_proj_page.php") or \
+                len(wd.find_elements_by_xpath("//input[@value='Create New Project']")) == 0:
             wd.find_element_by_link_text("Manage").click()
             wd.find_element_by_link_text("Manage Projects").click()
 

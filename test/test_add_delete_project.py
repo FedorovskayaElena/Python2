@@ -3,6 +3,7 @@ from random import choice
 import pytest
 
 
+# тест создания проекта с проверкой с загрузкой из интерфейса
 def test_add_project(app, data_projects, login):
 
     new_project = data_projects
