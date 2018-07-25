@@ -27,7 +27,6 @@ class SessionHelper:
 
     def is_logged_in(self):
         wd = self.app.wd
-        print("\n ??LOGGIN?? \n %s" % str(len(wd.find_elements_by_link_text("Logout"))))
         return len(wd.find_elements_by_link_text("Logout")) > 0
 
     def is_logged_in_as(self, username):
@@ -42,7 +41,6 @@ class SessionHelper:
         wd = self.app.wd
         if self.is_logged_in():
             if self.is_logged_in_as(username):
-                print("\nLogged in as %s" % username)
                 return
             else:
                 self.logout()

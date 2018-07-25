@@ -24,9 +24,6 @@ def app(request):
     global fixture
     browser = request.config.getoption("--browser")
     config = load_config(request.config.getoption("--target"))
-    print("\nweb:%s" % config["web"])
-    print("\nwebadmin:%s" % config["webadmin"])
-    print("\njames:%s" % config["james"])
     if fixture is None or not fixture.is_valid():
         fixture = Application(browser=browser, config=config)
     # fixture.session.ensure_login(config["webadmin"]["user"], config["webadmin"]["password"])
@@ -47,11 +44,7 @@ def stop(request):
 @pytest.fixture()
 def login(request):
     global fixture
-    print("\n\nLOGIN!!!\n\n")
     fixture.session.ensure_login(fixture.config["webadmin"]["user"], fixture.config["webadmin"]["password"])
-    # def fin():
-    #     fixture.session.ensure_logout()
-    # request.addfinalizer(fin)
     return fixture
 
 # # Создание фикстуры для логина при удалении/добавлении проектов от имени администратора
